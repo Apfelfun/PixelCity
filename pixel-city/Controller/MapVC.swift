@@ -22,6 +22,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.showsUserLocation = true
         mapView.delegate = self
         locationManager.delegate = self
         configureLocationServices()
@@ -29,7 +30,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func addDoubleTap() {
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(dropPin))
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(dropPin(sender:)))
         doubleTap.numberOfTapsRequired = 2
         doubleTap.delegate = self
         mapView.addGestureRecognizer(doubleTap)
@@ -51,9 +52,24 @@ extension MapVC: MKMapViewDelegate {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    @objc func dropPin() {
+    @objc func dropPin(sender: UITapGestureRecognizer) {
         //Hier wollen wir den Pin hinfallen lassen
-        print("Pin wurde gedropped")
+        removePin()
+        //Bei doppel Tap ruft erst die removePin Funktion auf!!!
+        let touchPoint = sender.location(in: mapView)
+        let touchCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
+        
+        let annatation = DroppablePin(coordinate: touchCoordinate, identifier: "d   roppablePin")
+        mapView.addAnnotation(annatation)
+        
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(touchCoordinate, regionRadius * 2.0, regionRadius * 2.0)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func removePin() {
+        for annotation in mapView.annotations {
+            mapView.removeAnnotation(annotation)
+        }
     }
 }
 
