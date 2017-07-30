@@ -39,5 +39,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Diese App möchte dein Standort haben um Fotos von Flickr darzustellen.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Diese App möchte dein Standort haben um Fotos von Flickr darzustellen.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Diese App möchte dein Standort haben um Fotos von Flickr darzustellen.</string>
 </dict>
 </plist>
