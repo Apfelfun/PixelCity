@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Alamofire
+import AlamofireImage
 
 class MapVC: UIViewController, UIGestureRecognizerDelegate {
     
@@ -22,6 +24,9 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     var collectionView: UICollectionView!
     
     var flowLayout = UICollectionViewFlowLayout()
+    
+    var imageUrlArray = [String]()
+    var imageArray = [UIImage]()
     
     //Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -66,6 +71,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func animateViewDown() {
+        cancelAllSessions()
         pullUpViewHeightContraints.constant = 0
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -93,7 +99,6 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         progressLbL.font = UIFont(name: "Avenir Next", size: 18)
         progressLbL.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         progressLbL.textAlignment = .center
-        progressLbL.text = "12/40 PHOTOS LOADED ..."
         collectionView.addSubview(progressLbL!)
     }
     
@@ -137,6 +142,7 @@ extension MapVC: MKMapViewDelegate {
         removePin()
         removeSpinner()
         removeProgressLbl()
+        cancelAllSessions()
         
         animateViewUp()
         addSwipe()
@@ -155,11 +161,66 @@ extension MapVC: MKMapViewDelegate {
         
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(touchCoordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
+        
+        //Wenn der Handler true wird diese Funktion aufgerufen
+        retrieveUrls(forAnnotation: annatation) { (finished) in
+            if finished {
+                self.retrieveImages(handler: { (finished) in
+                    if finished {
+                        self.removeSpinner()
+                        self.removeProgressLbl()
+                        //Spinner geht weg
+                        //Label geht weg
+                        //daten in der collectionView werden neu geladen
+                    }
+                })
+            }
+        }
     }
     
     func removePin() {
         for annotation in mapView.annotations {
             mapView.removeAnnotation(annotation)
+        }
+    }
+    
+    func retrieveUrls(forAnnotation annotation: DroppablePin, handler: @escaping (_ status: Bool) -> ()){
+        imageUrlArray = []
+        
+        Alamofire.request(flickrUrl(forKApi: apiKey, withAnnotation: annotation, andNumberOfPhotos: 40)).responseJSON { (response) in
+            print(response)
+            guard let json = response.result.value as? Dictionary<String, AnyObject> else {return}
+            let photosDict = json["photos"] as! Dictionary<String, AnyObject>
+            let photosDictArray = photosDict["photo"] as! [Dictionary<String, AnyObject>]
+            for photo in photosDictArray {
+                let postUrl = "https://farm\(photo["farm"]!).staticflickr.com/\(photo["server"]!)/\(photo["id"]!)_\(photo["secret"]!)_h_d.jpg"
+                self.imageUrlArray.append(postUrl)
+            }
+            handler(true)
+        }
+    }
+    
+    func retrieveImages(handler: @escaping (_ status: Bool) -> ()) {
+        imageArray = []
+        
+        for url in imageUrlArray {
+            Alamofire.request(url).responseImage(completionHandler: { (response) in
+                guard let image = response.result.value else {return}
+                self.imageArray.append(image)
+                self.progressLbL.text = "\(self.imageArray.count)/40 IMAGES DOWNLOADED"
+                
+                if self.imageArray.count == self.imageUrlArray.count {
+                    handler(true)
+                }
+            })
+        }
+        
+    }
+    
+    func cancelAllSessions() {
+        Alamofire.SessionManager.default.session.getTasksWithCompletionHandler { (sessionDataTask, upkoadData, downloadData) in
+            sessionDataTask.forEach({ $0.cancel()})
+            downloadData.forEach({ $0.cancel()})
         }
     }
 }
