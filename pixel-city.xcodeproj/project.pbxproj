@@ -14,6 +14,7 @@
 		AFD463DB1F2E730D00A8FB1F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFD463DA1F2E730D00A8FB1F /* Assets.xcassets */; };
 		AFD463DE1F2E730D00A8FB1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFD463DC1F2E730D00A8FB1F /* LaunchScreen.storyboard */; };
 		AFFE43551F2F7A7A00ECAC02 /* PhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFE43541F2F7A7A00ECAC02 /* PhotosCell.swift */; };
+		AFFE43571F2F7F5B00ECAC02 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFE43561F2F7F5B00ECAC02 /* Constants.swift */; };
 		FAD6588F87A3CABB8CD5A4AB /* Pods_pixel_city.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0346AC675D5B56B43E20773A /* Pods_pixel_city.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		AFD463DD1F2E730D00A8FB1F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AFD463DF1F2E730D00A8FB1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AFFE43541F2F7A7A00ECAC02 /* PhotosCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCell.swift; sourceTree = "<group>"; };
+		AFFE43561F2F7F5B00ECAC02 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 		AFD463E81F2E735B00A8FB1F /* Ulities */ = {
 			isa = PBXGroup;
 			children = (
+				AFFE43561F2F7F5B00ECAC02 /* Constants.swift */,
 			);
 			path = Ulities;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFFE43571F2F7F5B00ECAC02 /* Constants.swift in Sources */,
 				AFFE43551F2F7A7A00ECAC02 /* PhotosCell.swift in Sources */,
 				AFD463D61F2E730D00A8FB1F /* MapVC.swift in Sources */,
 				AF4CD3991F2E87BD0025B895 /* DroppablePin.swift in Sources */,

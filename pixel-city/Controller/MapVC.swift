@@ -143,12 +143,15 @@ extension MapVC: MKMapViewDelegate {
         addSpinner()
         addProgressLbl()
         
+        
         //Bei doppel Tap ruft erst die removePin Funktion auf!!!
         let touchPoint = sender.location(in: mapView)
         let touchCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
         
         let annatation = DroppablePin(coordinate: touchCoordinate, identifier: "droppablePin")
         mapView.addAnnotation(annatation)
+        
+        print(flickrUrl(forKApi: apiKey, withAnnotation: annatation, andNumberOfPhotos: 40))
         
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(touchCoordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
