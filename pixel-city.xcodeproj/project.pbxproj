@@ -15,6 +15,7 @@
 		AFD463DE1F2E730D00A8FB1F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFD463DC1F2E730D00A8FB1F /* LaunchScreen.storyboard */; };
 		AFFE43551F2F7A7A00ECAC02 /* PhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFE43541F2F7A7A00ECAC02 /* PhotosCell.swift */; };
 		AFFE43571F2F7F5B00ECAC02 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFE43561F2F7F5B00ECAC02 /* Constants.swift */; };
+		AFFE43591F2F9BE900ECAC02 /* PopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFE43581F2F9BE900ECAC02 /* PopVC.swift */; };
 		FAD6588F87A3CABB8CD5A4AB /* Pods_pixel_city.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0346AC675D5B56B43E20773A /* Pods_pixel_city.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		AFD463DF1F2E730D00A8FB1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AFFE43541F2F7A7A00ECAC02 /* PhotosCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCell.swift; sourceTree = "<group>"; };
 		AFFE43561F2F7F5B00ECAC02 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AFFE43581F2F9BE900ECAC02 /* PopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				AFD463D51F2E730D00A8FB1F /* MapVC.swift */,
+				AFFE43581F2F9BE900ECAC02 /* PopVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFFE43591F2F9BE900ECAC02 /* PopVC.swift in Sources */,
 				AFFE43571F2F7F5B00ECAC02 /* Constants.swift in Sources */,
 				AFFE43551F2F7A7A00ECAC02 /* PhotosCell.swift in Sources */,
 				AFD463D61F2E730D00A8FB1F /* MapVC.swift in Sources */,
