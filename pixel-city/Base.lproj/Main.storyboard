@@ -10,6 +10,7 @@
     </dependencies>
     <customFonts key="customFonts">
         <array key="AvenirNext.ttc">
+            <string>AvenirNext-Bold</string>
             <string>AvenirNext-Medium</string>
         </array>
     </customFonts>
@@ -121,20 +122,60 @@
                                     <constraint firstItem="non-E2-I85" firstAttribute="centerY" secondItem="ilr-lX-b5D" secondAttribute="centerY" id="Tw3-rW-OYu"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Super Creepy Chair" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTs-8A-ork">
+                                <rect key="frame" x="16" y="20" width="343" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is supercreepy chair we found in the jungel. We are told not to touch it and that it was cursed." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WTg-Fx-CcC">
+                                <rect key="frame" x="16" y="49.5" width="343" height="61"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taken" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WCH-1t-6bI">
+                                <rect key="frame" x="16" y="125" width="343" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dyq-WT-uke">
+                                <rect key="frame" x="16" y="173" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Qvb-N3-EJe"/>
+                                    <constraint firstAttribute="height" constant="100" id="pVt-7d-3dX"/>
+                                </constraints>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="YTs-8A-ork" firstAttribute="top" secondItem="QaP-9g-0RN" secondAttribute="top" id="DCT-W5-1ej"/>
+                            <constraint firstItem="QaP-9g-0RN" firstAttribute="trailing" secondItem="WCH-1t-6bI" secondAttribute="trailing" constant="16" id="Drz-he-BK3"/>
+                            <constraint firstItem="dyq-WT-uke" firstAttribute="leading" secondItem="QaP-9g-0RN" secondAttribute="leading" constant="16" id="KMq-mz-qhV"/>
+                            <constraint firstItem="QaP-9g-0RN" firstAttribute="trailing" secondItem="WTg-Fx-CcC" secondAttribute="trailing" constant="16" id="PJT-Zn-cvW"/>
                             <constraint firstItem="ilr-lX-b5D" firstAttribute="centerX" secondItem="1xA-zG-WHx" secondAttribute="centerX" id="Tg3-ij-Vqf"/>
+                            <constraint firstItem="WCH-1t-6bI" firstAttribute="top" secondItem="WTg-Fx-CcC" secondAttribute="bottom" constant="14.5" id="Tqx-RZ-WvO"/>
                             <constraint firstItem="lxj-r6-LWx" firstAttribute="trailing" secondItem="QaP-9g-0RN" secondAttribute="trailing" id="ZWn-rp-QaM"/>
+                            <constraint firstItem="QaP-9g-0RN" firstAttribute="trailing" secondItem="YTs-8A-ork" secondAttribute="trailing" constant="16" id="Ztn-kP-cNU"/>
                             <constraint firstItem="lxj-r6-LWx" firstAttribute="top" secondItem="1xA-zG-WHx" secondAttribute="top" id="g2m-Ia-JV9"/>
+                            <constraint firstItem="YTs-8A-ork" firstAttribute="leading" secondItem="QaP-9g-0RN" secondAttribute="leading" constant="16" id="gfQ-aq-fAj"/>
+                            <constraint firstItem="WTg-Fx-CcC" firstAttribute="top" secondItem="YTs-8A-ork" secondAttribute="bottom" constant="6" id="hOR-JK-h02"/>
                             <constraint firstItem="ilr-lX-b5D" firstAttribute="bottom" secondItem="QaP-9g-0RN" secondAttribute="bottom" constant="-20" id="jIb-vc-H3P"/>
                             <constraint firstItem="lxj-r6-LWx" firstAttribute="leading" secondItem="QaP-9g-0RN" secondAttribute="leading" id="jaz-vv-D7E"/>
+                            <constraint firstItem="WCH-1t-6bI" firstAttribute="leading" secondItem="QaP-9g-0RN" secondAttribute="leading" constant="16" id="lxl-f5-AGb"/>
+                            <constraint firstItem="WTg-Fx-CcC" firstAttribute="leading" secondItem="QaP-9g-0RN" secondAttribute="leading" constant="16" id="nq7-Nl-Ec7"/>
+                            <constraint firstItem="dyq-WT-uke" firstAttribute="top" secondItem="WCH-1t-6bI" secondAttribute="bottom" constant="25" id="ppi-Fp-txi"/>
                             <constraint firstItem="lxj-r6-LWx" firstAttribute="bottom" secondItem="QaP-9g-0RN" secondAttribute="bottom" id="ybS-Ff-c8n"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QaP-9g-0RN"/>
                     </view>
                     <connections>
+                        <outlet property="descriptionLbl" destination="WTg-Fx-CcC" id="Eun-7Y-Xyh"/>
+                        <outlet property="mapView" destination="dyq-WT-uke" id="UDF-h5-dg3"/>
                         <outlet property="popImageView" destination="lxj-r6-LWx" id="JcU-8j-AJK"/>
+                        <outlet property="takenLbl" destination="WCH-1t-6bI" id="v12-BU-IZc"/>
+                        <outlet property="titleLbl" destination="YTs-8A-ork" id="ifl-IN-wSU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DfV-vO-PUg" userLabel="First Responder" sceneMemberID="firstResponder"/>

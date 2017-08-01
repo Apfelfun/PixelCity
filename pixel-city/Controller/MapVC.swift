@@ -26,7 +26,13 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     var flowLayout = UICollectionViewFlowLayout()
     
     var imageUrlArray = [String]()
+    var titleArray = [String]()
+    var photoIdArray = [String]()
+    var datesArray = [String]()
     var imageArray = [UIImage]()
+    var latitudeArray = [String]()
+    var longitudeArray = [String]()
+    
     
     //Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -48,6 +54,8 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         collectionView.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         
         pullUpView.addSubview(collectionView)
+        
+        registerForPreviewing(with: self, sourceView: collectionView)
     }
     
     func addDoubleTap() {
@@ -120,7 +128,7 @@ extension MapVC: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        //Wenn die Bewerbung der Standort ist soll dort kein Pin angezeigt werden
+        //Wenn die Bemerkung der Standort ist soll dort kein Pin gesetzt werden
         if annotation is MKUserLocation {
             return nil
         }
@@ -146,6 +154,10 @@ extension MapVC: MKMapViewDelegate {
         
         imageUrlArray = []
         imageArray = []
+        photoIdArray = []
+        datesArray = []
+        latitudeArray = []
+        longitudeArray = []
         
         collectionView.reloadData()
         
@@ -162,10 +174,9 @@ extension MapVC: MKMapViewDelegate {
         let annatation = DroppablePin(coordinate: touchCoordinate, identifier: "droppablePin")
         mapView.addAnnotation(annatation)
         
-        print(flickrUrl(forKApi: apiKey, withAnnotation: annatation, andNumberOfPhotos: 40))
-        
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(touchCoordinate, regionRadius * 2.0, regionRadius * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
+        
         
         //Wenn der Handler true wird diese Funktion aufgerufen
         retrieveUrls(forAnnotation: annatation) { (finished) in
@@ -190,9 +201,9 @@ extension MapVC: MKMapViewDelegate {
         }
     }
     
+    //retrieve abrufen der Url
     func retrieveUrls(forAnnotation annotation: DroppablePin, handler: @escaping (_ status: Bool) -> ()){
-        Alamofire.request(flickrUrl(forKApi: apiKey, withAnnotation: annotation, andNumberOfPhotos: 20)).responseJSON { (response) in
-            print(response)
+        Alamofire.request(flickrUrl(forKApi: apiKey, withAnnotation: annotation, andNumberOfPhotos: 30)).responseJSON { (response) in
             guard let json = response.result.value as? Dictionary<String, AnyObject> else {return}
             let photosDict = json["photos"] as! Dictionary<String, AnyObject>
             let photosDictArray = photosDict["photo"] as! [Dictionary<String, AnyObject>]
@@ -200,16 +211,45 @@ extension MapVC: MKMapViewDelegate {
                 let postUrl = "https://farm\(photo["farm"]!).staticflickr.com/\(photo["server"]!)/\(photo["id"]!)_\(photo["secret"]!)_h_d.jpg"
                 self.imageUrlArray.append(postUrl)
             }
+            for title in photosDictArray {
+                let title = title["title"] as! String
+                self.titleArray.append(title)
+            }
+            
+            for photoId in photosDictArray {
+                let photoId = photoId["id"] as! String
+                Alamofire.request(photoIdUrl(forApiKey: apiKey, withPhotoId: photoId)).responseJSON(completionHandler: { (response) in
+                    guard let json = response.result.value as? Dictionary<String, AnyObject> else {return}
+                    let photosDict = json["photo"] as! Dictionary<String, AnyObject>
+                    let locationDict = photosDict["location"] as! Dictionary<String, AnyObject>
+                    let latitudeInfo = locationDict["latitude"] as! String
+                    let longitudeInfo = locationDict["longitude"] as! String
+                    self.latitudeArray.append(latitudeInfo)
+                    self.longitudeArray.append(longitudeInfo)
+                    print(self.latitudeArray)
+                    print(self.longitudeArray)
+                    
+                    let datesDict = photosDict["dates"] as! Dictionary<String, AnyObject>
+                    let posted = datesDict["taken"] as! String
+                    self.datesArray.append(posted)
+                    
+                    let descriptionDict = photosDict["description"] as! Dictionary<String, AnyObject>
+                    let contentDict = descriptionDict["_content"] as! String
+                    self.photoIdArray.append(contentDict)
+                })
+            }
+            
             handler(true)
         }
     }
+    
     
     func retrieveImages(handler: @escaping (_ status: Bool) -> ()) {
         for url in imageUrlArray {
             Alamofire.request(url).responseImage(completionHandler: { (response) in
                 guard let image = response.result.value else {return}
                 self.imageArray.append(image)
-                self.progressLbL.text = "\(self.imageArray.count)/40 IMAGES DOWNLOADED"
+                self.progressLbL.text = "\(self.imageArray.count)/30 IMAGES DOWNLOADED"
                 
                 if self.imageArray.count == self.imageUrlArray.count {
                     handler(true)
@@ -261,12 +301,27 @@ extension MapVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let popVC = storyboard?.instantiateViewController(withIdentifier: "PopVC") as? PopVC else {return}
-        popVC.initData(forImage: imageArray[indexPath.row])
+        popVC.initData(withImage: imageArray[indexPath.row], forText: titleArray[indexPath.row], andTaken: datesArray[indexPath.row], andContent: photoIdArray[indexPath.row], andlatitude: Double(latitudeArray[indexPath.row])!, andlongitude: Double(longitudeArray[indexPath.row])!)
         present(popVC, animated: true, completion: nil)
     }
 }
 
-
+extension MapVC: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = collectionView.indexPathForItem(at: location), let cell = collectionView.cellForItem(at: indexPath) else { return nil }
+        
+        guard let popVC = storyboard?.instantiateViewController(withIdentifier: "PopVC") as? PopVC else { return nil }
+        
+        popVC.initData(withImage: imageArray[indexPath.row], forText: titleArray[indexPath.row], andTaken: datesArray[indexPath.row], andContent: photoIdArray[indexPath.row], andlatitude: Double(latitudeArray[indexPath.row])!, andlongitude: Double(longitudeArray[indexPath.row])!)
+        
+        previewingContext.sourceRect = cell.contentView.frame
+        return popVC
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
+    }
+}
 
 
 
